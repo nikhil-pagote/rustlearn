@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cargo run *)",
+      "Bash(cargo build *)",
+      "Bash(cargo test *)",
+      "Bash(cargo fmt *)",
+      "Bash(cargo clippy *)",
+      "Bash(cargo check *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git branch *)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/rust-format-lint.sh\"",
+            "timeout": 90,
+            "statusMessage": "Formatting & linting Rust..."
+          }
+        ]
+      }
+    ]
+  }
+}

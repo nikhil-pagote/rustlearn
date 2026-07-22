@@ -1,0 +1,8 @@
+{
+  "name": "Rust Dev",
+  "build": {
+    "dockerfile": "Containerfile"
+  },
+  "workspaceFolder": "/workspaces/Rust",
+  "postCreateCommand": "cargo build"
+}
