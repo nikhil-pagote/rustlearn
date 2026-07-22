@@ -52,6 +52,24 @@ Rust toolchain lives inside a container, not on the host.
 `docs/README.md` as the notes index, this file, and the top-level `CLAUDE.md`
 summarizing environment/commands/structure for future Claude Code sessions.
 
+## Host credentials mounted into the container
+
+`.devcontainer/devcontainer.json`'s `mounts` bind-mount three things from the
+host so git/gh work inside the container without a separate login:
+
+- `~/.ssh` → `/root/.ssh` (read-only) — the SSH key used for
+  `git@github.com` pushes (this repo's remote uses the SSH protocol).
+- `~/.gitconfig` → `/root/.gitconfig` (read-only) — commit author identity
+  and the `gh auth git-credential` helper config for any https remotes.
+- `~/.config/gh` → `/root/.config/gh` (read-write, matching the sibling
+  `mojo` repo's devcontainer) — the `gh` CLI's stored OAuth token.
+
+Tradeoff worth knowing: this gives the container read access to the host's
+real SSH private key and GitHub auth token, not a scoped-down credential —
+anything running inside the container can act as you on GitHub. Fine for a
+personal learning container you control; wouldn't do this for a container
+running untrusted code.
+
 ## Verified once, on the host
 
 Before committing to the devcontainer-only approach, `rustc`/`cargo` were
