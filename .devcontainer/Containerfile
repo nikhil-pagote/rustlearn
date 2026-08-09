@@ -12,6 +12,17 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --pr
 ENV PATH="/root/.cargo/bin:${PATH}"
 RUN rustup component add rustfmt clippy
 
+# evcxr: a Rust REPL exposed as a Jupyter kernel, so notebooks/*.ipynb can run
+# Rust cells. Needs no Python — VS Code's Jupyter extension launches the kernel
+# binary directly over ZeroMQ ("raw kernel" mode), and evcxr bundles a pure-Rust
+# ZeroMQ, so there's no libzmq/cmake build dependency to add above.
+# `--install` writes the kernelspec to /root/.local/share/jupyter/kernels/rust.
+# The registry cache is dropped in the same layer: it's ~185MB of crates pulled
+# in only to build evcxr, and nothing else in this image needs them.
+RUN cargo install --locked evcxr_jupyter \
+    && evcxr_jupyter --install \
+    && rm -rf /root/.cargo/registry
+
 # Node.js: not needed for Rust itself, but Claude Code MCP plugins launched via
 # `npx` (e.g. the context7 plugin: `npx -y @upstash/context7-mcp`) need it —
 # without it, `claude mcp list` shows "Failed to connect" (npx: command not found).

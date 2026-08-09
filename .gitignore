@@ -1,1 +1,4 @@
 /target
+
+# Jupyter notebook scratch state
+.ipynb_checkpoints/
