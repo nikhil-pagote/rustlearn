@@ -4,8 +4,12 @@ FROM ubuntu:24.04
 # tzdata's "Geographic area:" question, pulled in transitively by ca-certificates).
 ENV DEBIAN_FRONTEND=noninteractive
 
+# openssh-client: git itself has no SSH implementation — it shells out to `ssh`.
+# Without it, pushing to the git@github.com: remote dies with "cannot run ssh:
+# No such file or directory", even though devcontainer.json mounts the keys.
+# --no-install-recommends is load-bearing here: the recommends pull in X11 libs.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl ca-certificates git build-essential \
+    curl ca-certificates git openssh-client build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile default
