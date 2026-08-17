@@ -1,5 +1,5 @@
-//! Exercise 8: structs, methods (impl blocks), associated functions.
-//! Run: cargo run --example 08_structs
+//! Exercise 7: structs, methods (impl blocks), associated functions.
+//! Run: cargo run --example 07_structs
 
 #[derive(Debug)]
 struct Rectangle {

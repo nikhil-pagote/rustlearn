@@ -34,7 +34,7 @@ Run inside the devcontainer:
 Rust/
 ├── src/
 │   └── lib.rs       # shared library code, once exercises produce reusable functions/structs/traits
-├── examples/        # one runnable program per topic, 01_hello.rs .. 12_closures_iterators.rs
+├── examples/        # one runnable program per topic, 01_hello.rs .. 20_macros.rs
 ├── docs/            # verified, repo-specific learning notes (start at README.md)
 ├── tests/           # integration tests — empty for now
 ├── CARGO_CHEATSHEET.md

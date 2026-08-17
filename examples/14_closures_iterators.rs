@@ -1,7 +1,7 @@
-//! Exercise 12: closures and iterator adapters.
+//! Exercise 14: closures and iterator adapters.
 //! Rust's equivalent "expressive/advanced" showcase slot (the Mojo repo used
 //! SIMD for this; Rust's day-to-day idiomatic power tool is iterators).
-//! Run: cargo run --example 12_closures_iterators
+//! Run: cargo run --example 14_closures_iterators
 
 fn main() {
     // Closures capture their environment; `add_n` borrows `n`.
