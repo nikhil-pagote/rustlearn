@@ -1,5 +1,5 @@
-//! Exercise 8: enums, Option, match, if let.
-//! Run: cargo run --example 08_enums_pattern_matching
+//! Exercise 9: enums, Option, match, if let.
+//! Run: cargo run --example 09_enums_pattern_matching
 
 #[derive(Debug)]
 enum Shape {

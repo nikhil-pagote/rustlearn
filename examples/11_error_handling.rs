@@ -1,5 +1,5 @@
-//! Exercise 10: Result, the `?` operator, panic vs. recoverable errors.
-//! Run: cargo run --example 10_error_handling
+//! Exercise 11: Result, the `?` operator, panic vs. recoverable errors.
+//! Run: cargo run --example 11_error_handling
 
 use std::num::ParseIntError;
 

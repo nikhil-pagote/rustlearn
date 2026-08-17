@@ -1,5 +1,5 @@
-//! Exercise 5: if/else, loop, while, for, match as control flow.
-//! Run: cargo run --example 05_control_flow
+//! Exercise 6: if/else, loop, while, for, match as control flow.
+//! Run: cargo run --example 06_control_flow
 
 fn main() {
     let n = 7;

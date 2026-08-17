@@ -8,14 +8,14 @@ version but occasionally don't.
 
 `#[allow(clippy::...)]` directly above a `let` binding (not just above a whole
 `fn`) compiles fine on stable 1.97.1 — no `#![feature(stmt_expr_attributes)]`
-needed. Used in `examples/11_closures_iterators.rs` to scope a clippy allow to
+needed. Used in `examples/12_closures_iterators.rs` to scope a clippy allow to
 one line instead of the whole function. This is narrower than attribute-on-item
 placement (whole `fn`/`struct`/module), which is the more commonly documented
 form.
 
 ## `HashMap` iteration order is not deterministic
 
-`examples/06_collections.rs` iterates a `HashMap<&str, i32>` with a `for`
+`examples/07_collections.rs` iterates a `HashMap<&str, i32>` with a `for`
 loop; the print order of entries varies between runs (confirmed: re-running
 the same binary changes which of "Alice"/"Bob" prints first). This is
 intentional — `HashMap` uses per-process randomized hashing (SipHash with a

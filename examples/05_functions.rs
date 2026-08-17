@@ -1,5 +1,5 @@
-//! Exercise 4: functions, expressions vs. statements, return values.
-//! Run: cargo run --example 04_functions
+//! Exercise 5: functions, expressions vs. statements, return values.
+//! Run: cargo run --example 05_functions
 
 fn main() {
     greet("Ferris");

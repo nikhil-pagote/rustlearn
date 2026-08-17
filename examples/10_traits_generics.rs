@@ -1,5 +1,5 @@
-//! Exercise 9: traits (shared behavior) and generics (shared code).
-//! Run: cargo run --example 09_traits_generics
+//! Exercise 10: traits (shared behavior) and generics (shared code).
+//! Run: cargo run --example 10_traits_generics
 
 trait Summary {
     fn summarize(&self) -> String;
