@@ -2,3 +2,6 @@
 
 # Jupyter notebook scratch state
 .ipynb_checkpoints/
+
+# Environment files
+.env
