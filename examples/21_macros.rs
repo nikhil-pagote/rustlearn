@@ -1,7 +1,7 @@
-//! Exercise 20: macros — code that writes code at compile time.
+//! Exercise 21: macros — code that writes code at compile time.
 //! You've used macros since exercise 1 (`println!`, `vec!` — note the `!`).
 //! Here we write our own with `macro_rules!`, Rust's declarative macros.
-//! Run: cargo run --example 20_macros
+//! Run: cargo run --example 21_macros
 
 // macro_rules! matches patterns against the *source code* passed in and
 // expands to the template on the right. `$( ... ),*` means "comma-separated

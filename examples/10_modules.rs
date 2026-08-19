@@ -1,7 +1,7 @@
-//! Exercise 9: modules, `use`, and visibility (`pub`).
+//! Exercise 10: modules, `use`, and visibility (`pub`).
 //! Real projects split code across modules and files; this exercise shows the
 //! mechanics inside one file for simplicity.
-//! Run: cargo run --example 09_modules
+//! Run: cargo run --example 10_modules
 
 // A module groups related items. Everything is private by default; `pub`
 // makes an item visible outside the module.

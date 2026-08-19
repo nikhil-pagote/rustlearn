@@ -1,7 +1,7 @@
-//! Exercise 12: lifetimes — how the compiler checks that references stay valid.
+//! Exercise 13: lifetimes — how the compiler checks that references stay valid.
 //! Most lifetimes are inferred; you annotate them when a function or struct
 //! relates the lifetimes of two or more references.
-//! Run: cargo run --example 12_lifetimes
+//! Run: cargo run --example 13_lifetimes
 
 // The `<'a>` says: the returned reference lives at least as long as the
 // shorter of the two inputs — so the caller can't outlive the data it

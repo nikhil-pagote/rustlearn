@@ -1,7 +1,7 @@
-//! Exercise 16: testing — unit tests, assertions, expected failures.
+//! Exercise 17: testing — unit tests, assertions, expected failures.
 //! `cargo test` compiles each target in test mode and runs every `#[test]`.
-//! Run the program:  cargo run --example 16_testing
-//! Run the tests:    cargo test --example 16_testing
+//! Run the program:  cargo run --example 17_testing
+//! Run the tests:    cargo test --example 17_testing
 //! (In a library you'd keep tests next to the code in src/, plus integration
 //! tests under tests/ — same attribute syntax.)
 
@@ -20,7 +20,7 @@ fn divide(a: f64, b: f64) -> Result<f64, String> {
 fn main() {
     println!("add(2, 3) = {}", add(2, 3));
     println!("divide(10.0, 4.0) = {:?}", divide(10.0, 4.0));
-    println!("run `cargo test --example 16_testing` to execute the tests below");
+    println!("run `cargo test --example 17_testing` to execute the tests below");
 }
 
 // `#[cfg(test)]` means this module only compiles under `cargo test`.

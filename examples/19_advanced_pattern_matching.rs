@@ -1,6 +1,6 @@
-//! Exercise 18: advanced pattern matching — guards, bindings, destructuring,
+//! Exercise 19: advanced pattern matching — guards, bindings, destructuring,
 //! and the rest of the `match` toolbox beyond the basics from exercise 8.
-//! Run: cargo run --example 18_advanced_pattern_matching
+//! Run: cargo run --example 19_advanced_pattern_matching
 
 struct Point {
     x: i32,

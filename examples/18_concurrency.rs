@@ -1,7 +1,7 @@
-//! Exercise 17: fearless concurrency — threads, channels, Arc + Mutex.
+//! Exercise 18: fearless concurrency — threads, channels, Arc + Mutex.
 //! The ownership rules from exercise 4 are what make shared-state threading
 //! safe: the compiler rejects data races before the program can run.
-//! Run: cargo run --example 17_concurrency
+//! Run: cargo run --example 18_concurrency
 
 use std::sync::{Arc, Mutex, mpsc};
 use std::thread;
@@ -53,5 +53,8 @@ fn main() {
     for h in handles {
         h.join().unwrap();
     }
-    println!("counter after 4 threads x 100 increments = {}", counter.lock().unwrap());
+    println!(
+        "counter after 4 threads x 100 increments = {}",
+        counter.lock().unwrap()
+    );
 }

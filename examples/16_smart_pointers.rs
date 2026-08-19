@@ -1,7 +1,7 @@
-//! Exercise 15: smart pointers — Box, Rc, RefCell.
+//! Exercise 16: smart pointers — Box, Rc, RefCell.
 //! Smart pointers own data and add capabilities beyond plain references:
 //! heap allocation (Box), shared ownership (Rc), interior mutability (RefCell).
-//! Run: cargo run --example 15_smart_pointers
+//! Run: cargo run --example 16_smart_pointers
 
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -42,7 +42,10 @@ fn main() {
     println!("count after two clones = {}", Rc::strong_count(&shared));
     println!("owner_a = {owner_a}, owner_b = {owner_b}");
     drop(owner_a);
-    println!("count after dropping owner_a = {}", Rc::strong_count(&shared));
+    println!(
+        "count after dropping owner_a = {}",
+        Rc::strong_count(&shared)
+    );
 
     // RefCell<T>: borrow rules checked at *runtime* instead of compile time.
     // Combined with Rc, this gives shared + mutable data (single-threaded).

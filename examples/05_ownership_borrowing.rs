@@ -1,7 +1,7 @@
-//! Exercise 4: ownership, borrowing, references.
+//! Exercise 5: ownership, borrowing, references.
 //! The concept that most distinguishes Rust from other languages — no
 //! garbage collector, no manual free, checked at compile time.
-//! Run: cargo run --example 04_ownership_borrowing
+//! Run: cargo run --example 05_ownership_borrowing
 
 fn main() {
     // Move: String owns heap data. Assigning it moves ownership; `s1` is no

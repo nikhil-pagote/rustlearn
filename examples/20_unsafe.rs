@@ -1,8 +1,8 @@
-//! Exercise 19: unsafe Rust — the five superpowers, used sparingly.
+//! Exercise 20: unsafe Rust — the five superpowers, used sparingly.
 //! `unsafe` doesn't turn off the borrow checker; it only allows five things
 //! the compiler can't verify itself. Keep blocks small and wrap them in safe
 //! abstractions.
-//! Run: cargo run --example 19_unsafe
+//! Run: cargo run --example 20_unsafe
 
 // Superpower 1: dereference raw pointers (*const T / *mut T).
 // Raw pointers may be null, unaligned, or dangle — reading them is unsafe.

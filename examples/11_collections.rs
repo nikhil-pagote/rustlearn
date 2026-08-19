@@ -1,5 +1,5 @@
-//! Exercise 10: Vec, String, HashMap.
-//! Run: cargo run --example 10_collections
+//! Exercise 11: Vec, String, HashMap.
+//! Run: cargo run --example 11_collections
 
 use std::collections::HashMap;
 
