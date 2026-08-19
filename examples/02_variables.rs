@@ -29,7 +29,7 @@ fn main() {
     println!("MAX_SCORE = {MAX_SCORE}");
 
     let v: Vec<_> = vec![1, 2, 3]; // type annotation
-    println!("v = {:?}", v);
+    println!("v = {:?}", v); //:? denotes debug formatting, prints the vector as [1, 2, 3]
     scalar_demo();
 }
 
@@ -49,6 +49,7 @@ fn scalar_demo() {
     let _x: usize = 42; // pointer-sized unsigned integer, default 32-bit on 32-bit systems, 64-bit on 64-bit systems
 
     //Floats: 32-bit and 64-bit floating-point numbers. The default is f64.
+    #[allow(clippy::approx_constant)]
     let _x: f64 = 3.14; // 64-bit floating-point number
     let _x: bool = true; // boolean
     let _x: char = 'R'; // character

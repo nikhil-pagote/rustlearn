@@ -20,13 +20,16 @@ fn main() {
     println!("uppercase = {}", title.to_uppercase());
     println!("lowercase = {}", title.to_lowercase());
 
-    let capitalized = title
-        .chars()
-        .next()
-        .map(|first| first.to_uppercase().chain(title.chars().skip(1)).collect::<String>());
+    let capitalized = title.chars().next().map(|first| {
+        first
+            .to_uppercase()
+            .chain(title.chars().skip(1))
+            .collect::<String>()
+    });
     println!("capitalized = {}", capitalized.unwrap_or_default());
 
     // Use character positions for a Unicode-safe substring.
+    #[allow(clippy::iter_skip_zero)]
     let substring: String = title.chars().skip(0).take(4).collect();
     println!("substring = {substring}");
 
@@ -54,9 +57,15 @@ fn main() {
     let csv = "a,b,c";
     let parts: Vec<&str> = csv.split(',').collect();
     println!("split(',') = {:?}", parts);
-    println!("splitn(2, ',') = {:?}", csv.splitn(2, ',').collect::<Vec<_>>());
+    println!(
+        "splitn(2, ',') = {:?}",
+        csv.splitn(2, ',').collect::<Vec<_>>()
+    );
     println!("join('-') = {}", parts.join("-"));
-    println!("split_whitespace = {:?}", "  a  b  c  ".split_whitespace().collect::<Vec<_>>());
+    println!(
+        "split_whitespace = {:?}",
+        "  a  b  c  ".split_whitespace().collect::<Vec<_>>()
+    );
     let mut lines_text = "line1\nline2".lines();
     println!("lines() first = {:?}", lines_text.next());
 
@@ -78,7 +87,10 @@ fn main() {
 
     // Case checks and char methods.
     println!("is_ascii = {}", tstring.is_ascii());
-    println!("eq_ignore_ascii_case = {}", "RUST".eq_ignore_ascii_case("rust"));
+    println!(
+        "eq_ignore_ascii_case = {}",
+        "RUST".eq_ignore_ascii_case("rust")
+    );
 
     // Slicing (byte-index based; must land on char boundaries).
     println!("slice[0..4] = {}", &tstring[0..4]);
@@ -88,25 +100,43 @@ fn main() {
     println!("split_at(4) = {:?}, {:?}", head, tail);
 
     // Strip a prefix or suffix and return the remainder.
-    println!("strip_prefix('test ') = {:?}", tstring.strip_prefix("test "));
+    println!(
+        "strip_prefix('test ') = {:?}",
+        tstring.strip_prefix("test ")
+    );
     println!("strip_suffix('ing') = {:?}", tstring.strip_suffix("ing"));
 
     // Trim with a predicate instead of whitespace.
     let noisy = "...hello...";
     println!("trim_matches('.') = {:?}", noisy.trim_matches('.'));
-    println!("trim_start_matches('.') = {:?}", noisy.trim_start_matches('.'));
+    println!(
+        "trim_start_matches('.') = {:?}",
+        noisy.trim_start_matches('.')
+    );
     println!("trim_end_matches('.') = {:?}", noisy.trim_end_matches('.'));
 
     // Split by a closure and by a terminator.
     let numbers = "10,20;30";
     let split_pred: Vec<&str> = numbers.split(|c| c == ',' || c == ';').collect();
     println!("split(predicate) = {:?}", split_pred);
-    println!("split_terminator(';') = {:?}", "a;b;c;".split_terminator(';').collect::<Vec<_>>());
-    println!("rsplitn(2, ',') = {:?}", numbers.rsplitn(2, ',').collect::<Vec<_>>());
+    println!(
+        "split_terminator(';') = {:?}",
+        "a;b;c;".split_terminator(';').collect::<Vec<_>>()
+    );
+    println!(
+        "rsplitn(2, ',') = {:?}",
+        numbers.rsplitn(2, ',').collect::<Vec<_>>()
+    );
 
     // Match a pattern and get positions.
-    println!("matches('t') = {:?}", tstring.matches('t').collect::<Vec<_>>());
-    println!("match_indices('t') = {:?}", tstring.match_indices('t').collect::<Vec<_>>());
+    println!(
+        "matches('t') = {:?}",
+        tstring.matches('t').collect::<Vec<_>>()
+    );
+    println!(
+        "match_indices('t') = {:?}",
+        tstring.match_indices('t').collect::<Vec<_>>()
+    );
 
     // Alignment/padding via format! (built into the standard library).
     println!("center 20 = {:^20}", "hi");
@@ -114,9 +144,18 @@ fn main() {
     println!("right_pad 10 = {:<10}", "hi");
 
     // Escape and repr-style strings.
-    println!("escape_debug = {:?}", "\n\t".escape_debug().collect::<String>());
-    println!("escape_default = {:?}", "\"hi\"".escape_default().collect::<String>());
-    println!("escape_unicode = {:?}", "é".escape_unicode().collect::<String>());
+    println!(
+        "escape_debug = {:?}",
+        "\n\t".escape_debug().collect::<String>()
+    );
+    println!(
+        "escape_default = {:?}",
+        "\"hi\"".escape_default().collect::<String>()
+    );
+    println!(
+        "escape_unicode = {:?}",
+        "é".escape_unicode().collect::<String>()
+    );
 
     // Comparisons and ordering.
     println!("eq = {}", "abc".eq("abc"));
@@ -138,7 +177,11 @@ fn main() {
     owned.truncate(5);
     println!("truncate = {owned}");
     owned.clear();
-    println!("clear: len = {}, capacity = {}", owned.len(), owned.capacity());
+    println!(
+        "clear: len = {}, capacity = {}",
+        owned.len(),
+        owned.capacity()
+    );
     owned.reserve(100);
     println!("reserve: capacity = {}", owned.capacity());
     owned.shrink_to_fit();
