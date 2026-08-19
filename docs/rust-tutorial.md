@@ -11,7 +11,7 @@ repo's toolchain (rustc 1.97.1, edition 2024).
 | 01 | [01_hello.rs](../examples/01_hello.rs) | `fn main()`, `println!` |
 | 02 | [02_variables.rs](../examples/02_variables.rs) | `let`, `mut`, shadowing, `const` |
 | 03 | [03_strings.rs](../examples/03_strings.rs) | `String` vs `&str`, common string methods |
-| 04 | [04_tuples_and_arrays.rs](../examples/04_tuples_and_arrays.rs) | tuples, arrays, destructuring, multiple return values, unit `()` |
+| 04 | [04_tuples_arrays_slices.rs](../examples/04_tuples_arrays_slices.rs) | tuples, arrays, slices, destructuring, multiple return values, unit `()` |
 | 05 | [05_ownership_borrowing.rs](../examples/05_ownership_borrowing.rs) | move semantics, `.clone()`, `&`/`&mut` references |
 | 06 | [06_functions.rs](../examples/06_functions.rs) | function syntax, expressions vs. statements |
 | 07 | [07_control_flow.rs](../examples/07_control_flow.rs) | `if`, `loop`, `while`, `for`, `match` |

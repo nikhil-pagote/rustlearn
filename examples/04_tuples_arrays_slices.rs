@@ -1,5 +1,5 @@
 //! Exercise 4: Tuples, Arrays, and Slices — compound types and views in Rust.
-//! Run: cargo run --example 04_tuples_and_arrays
+//! Run: cargo run --example 04_tuples_arrays_slices
 #![allow(unused)]
 
 fn main() {
