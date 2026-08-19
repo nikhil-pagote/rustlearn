@@ -1,7 +1,12 @@
-//! Exercise 3: String and &str basics plus common string methods.
-//! Run: cargo run --example 03_strings
+//! Exercise 3: String, &str, and Vec — strings and vectors basics.
+//! Run: cargo run --example 03_strings_vectors
 
 fn main() {
+    string_demo();
+    vector_demo();
+}
+
+fn string_demo() {
     // A string literal is a borrowed string slice with a fixed size.
     let greeting: &str = "Hello";
     println!("greeting (&str) = {greeting}");
@@ -205,4 +210,65 @@ fn main() {
     println!("raw string = {raw}");
     let bytes: &[u8] = b"hello";
     println!("byte string = {:?}", bytes);
+}
+
+fn vector_demo() {
+    // A Vec is a growable array on the heap. Create one with vec![].
+    let mut numbers = vec![1, 2, 3];
+    println!("numbers = {numbers:?}");
+    println!("len = {}, capacity = {}", numbers.len(), numbers.capacity());
+
+    // Push and pop add/remove from the end.
+    numbers.push(4);
+    numbers.push(5);
+    println!("after push = {numbers:?}");
+    let last = numbers.pop();
+    println!("pop() = {last:?}, now = {numbers:?}");
+
+    // Indexing (panics on out-of-bounds) vs. .get() (returns Option).
+    println!("numbers[0] = {}", numbers[0]);
+    println!("numbers.get(2) = {:?}", numbers.get(2));
+    println!("numbers.get(99) = {:?}", numbers.get(99));
+
+    // Insert and remove at arbitrary positions.
+    numbers.insert(1, 99);
+    println!("after insert(1, 99) = {numbers:?}");
+    let removed = numbers.remove(1);
+    println!("remove(1) = {removed}, now = {numbers:?}");
+
+    // Vec can be created empty and extended.
+    let mut v: Vec<i32> = Vec::new();
+    v.extend([10, 20, 30]);
+    println!("extend = {v:?}");
+
+    // Resizing and pre-allocation.
+    v.resize(5, 0);
+    println!("resize(5, 0) = {v:?}");
+    v.reserve(100);
+    println!("after reserve, capacity = {}", v.capacity());
+    v.shrink_to_fit();
+    println!("after shrink_to_fit, capacity = {}", v.capacity());
+
+    // Slicing a Vec (borrowing a portion of it).
+    let nums = vec![1, 2, 3, 4, 5];
+    let slice: &[i32] = &nums[1..4];
+    println!("slice [1..4] = {slice:?}");
+
+    // Iterating and transforming.
+    let doubled: Vec<i32> = nums.iter().map(|n| n * 2).collect();
+    println!("doubled = {doubled:?}");
+    let evens: Vec<i32> = nums.into_iter().filter(|n| n % 2 == 0).collect();
+    println!("evens = {evens:?}");
+
+    // Vec of Strings.
+    let mut words = vec![String::from("hello"), String::from("rust")];
+    words.push(String::from("vec"));
+    println!("words = {words:?}");
+
+    // Common summary methods.
+    #[allow(clippy::useless_vec)]
+    let scores = vec![10, 20, 30, 40];
+    println!("first = {:?}, last = {:?}", scores.first(), scores.last());
+    println!("len = {}, is_empty = {}", scores.len(), scores.is_empty());
+    println!("contains 20 = {}", scores.contains(&20));
 }
