@@ -37,5 +37,13 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
 RUN curl -fsSL https://claude.ai/install.sh | bash
 ENV PATH="/root/.local/bin:${PATH}"
 
+# The repo is bind-mounted from the host, so its files carry the *host* user's
+# uid (typically 1000) while this container runs as root. Git refuses to operate
+# on a repo owned by another user ("detected dubious ownership") unless the path
+# is whitelisted. Baking it into the system config (/etc/gitconfig) fixes this
+# for every user of the image with no per-machine setup — a --global entry can't
+# be used here because ~/.gitconfig may itself be a read-only bind mount.
+RUN git config --system --add safe.directory /workspaces/Rust
+
 # Must match `workspaceFolder` in devcontainer.json (the repo's mount point).
 WORKDIR /workspaces/Rust

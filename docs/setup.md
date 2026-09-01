@@ -52,23 +52,51 @@ Rust toolchain lives inside a container, not on the host.
 `docs/README.md` as the notes index, this file, and the top-level `CLAUDE.md`
 summarizing environment/commands/structure for future Claude Code sessions.
 
-## Host credentials mounted into the container
+## Host credentials: kept out of the shared config
 
-`.devcontainer/devcontainer.json`'s `mounts` bind-mount three things from the
-host so git/gh work inside the container without a separate login:
+The committed `.devcontainer/devcontainer.json` deliberately mounts **nothing**
+from the host beyond the repo itself, so a fresh clone builds and runs with no
+per-machine setup. That is a change from the original setup, which bind-mounted
+`~/.ssh`, `~/.gitconfig` and `~/.config/gh` — all three turned out to be
+actively broken rather than merely personal:
 
-- `~/.ssh` → `/root/.ssh` (read-only) — the SSH key used for
-  `git@github.com` pushes (this repo's remote uses the SSH protocol).
-- `~/.gitconfig` → `/root/.gitconfig` (read-only) — commit author identity
-  and the `gh auth git-credential` helper config for any https remotes.
-- `~/.config/gh` → `/root/.config/gh` (read-write, matching the sibling
-  `mojo` repo's devcontainer) — the `gh` CLI's stored OAuth token.
+- The container runs as **root**, but bind-mounted host files keep the host
+  user's uid (typically 1000). `ssh` aborts with `Bad owner or permissions` on
+  any config it does not own, and separately on any config that is
+  group-writable — a routine `0664 ~/.ssh/config` trips it. The mount is
+  read-only, so `chmod` cannot repair it in place.
+- `~/.gitconfig` mounted as a *single file* breaks writes: git rewrites config
+  via temp-file + rename, which a file bind mount rejects with
+  `Device or resource busy`. So `git config --global` fails inside the
+  container.
+- If the host lacks one of those paths, Docker helpfully creates it — as a
+  **directory** — so a student with no `~/.gitconfig` gets a directory where
+  git expects a file.
+- `~/.config/gh` was mounted for a `gh` CLI the image never installs.
 
-Tradeoff worth knowing: this gives the container read access to the host's
-real SSH private key and GitHub auth token, not a scoped-down credential —
-anything running inside the container can act as you on GitHub. Fine for a
-personal learning container you control; wouldn't do this for a container
-running untrusted code.
+The `dubious ownership` error from the same uid mismatch is fixed for everyone
+in the image instead, via `git config --system` in the Containerfile — system
+config is the only level that works here, since `~/.gitconfig` may itself be an
+unwritable mount.
+
+### Getting your own credentials in (maintainer only)
+
+`.devcontainer/local/` holds a gitignored personal variant that **copies**
+credentials in rather than mounting them onto their final path: host `~/.ssh`
+and `~/.gitconfig` are mounted read-only at `/tmp/host-*`, and
+`stage-credentials.sh` copies them into `/root` as root-owned `0600` files.
+Copying is what fixes both the ownership and the permissions complaint. Select
+it with the Dev Containers config picker, or:
+
+```bash
+devcontainer up --config .devcontainer/local/devcontainer.json --workspace-folder .
+```
+
+Tradeoff worth knowing: this still gives the container read access to the
+host's real SSH private key — anything running inside can act as you on
+GitHub. Fine for a personal learning container you control; wouldn't do this
+for a container running untrusted code, and it is precisely why the shared
+config no longer does it by default.
 
 ## Verified once, on the host
 

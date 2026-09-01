@@ -77,7 +77,31 @@ apt-get update -qq && apt-get install -y -qq --no-install-recommends openssh-cli
 failed to fetch from the Ubuntu mirror here. Rebuild the container for the
 permanent fix.
 
-The keys themselves are fine — `devcontainer.json` bind-mounts `~/.ssh`
-readonly, and `~/.config/gh` is mounted too but `gh` isn't installed and the
-mounted `hosts.yml` carries no token, so **SSH is the only working auth path**.
-Don't try to route a push through `gh`.
+`Bad owner or permissions on /root/.ssh/config` / `detected dubious ownership`
+— both come from the same mismatch: the container runs as root while
+host-mounted files keep the host user's uid. Ownership is handled in the image
+now (`git config --system --add safe.directory` in the Containerfile), so
+`dubious ownership` should not reappear; if it does, the container predates
+that line and needs a rebuild.
+
+The SSH one means the container has no usable credentials, because the shared
+`devcontainer.json` intentionally mounts none — a clone must work for anyone
+with no per-machine setup. Pushing requires the gitignored personal config:
+
+```bash
+devcontainer up --config .devcontainer/local/devcontainer.json --workspace-folder .
+```
+
+It mounts the host keys at `/tmp/host-ssh` and `stage-credentials.sh` copies
+them to `/root/.ssh` as root-owned `0600` files — copying, not mounting, is
+what satisfies ssh's ownership and group-writable checks. To unblock a push in
+a container started from the plain config, do the same by hand:
+
+```bash
+install -d -m 700 /root/.ssh-local
+install -m 600 /tmp/host-ssh/id_ed25519_github /root/.ssh-local/
+GIT_SSH_COMMAND='ssh -o IdentitiesOnly=yes -i /root/.ssh-local/id_ed25519_github' git push origin master
+```
+
+`gh` isn't installed and the old `~/.config/gh` mount carried no token, so
+**SSH is the only working auth path**. Don't try to route a push through `gh`.

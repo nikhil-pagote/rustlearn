@@ -5,11 +5,6 @@
   },
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/Rust,type=bind",
   "workspaceFolder": "/workspaces/Rust",
-  "mounts": [
-    "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached,readonly",
-    "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached,readonly",
-    "source=${localEnv:HOME}/.config/gh,target=/root/.config/gh,type=bind,consistency=cached"
-  ],
   "customizations": {
     "vscode": {
       "extensions": [

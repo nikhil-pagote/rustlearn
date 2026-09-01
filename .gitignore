@@ -8,3 +8,6 @@
 
 # Machine-local Claude Code permission overrides
 .claude/settings.local.json
+
+# Personal devcontainer variant that mounts host SSH/git credentials
+.devcontainer/local/
