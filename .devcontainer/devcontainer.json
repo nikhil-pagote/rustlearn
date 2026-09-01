@@ -3,6 +3,7 @@
   "build": {
     "dockerfile": "Containerfile"
   },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/Rust,type=bind",
   "workspaceFolder": "/workspaces/Rust",
   "mounts": [
     "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached,readonly",
