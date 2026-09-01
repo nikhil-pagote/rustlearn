@@ -18,9 +18,10 @@ in-repo under `docs/` — start at `docs/README.md`.
   via the official rustup.rs script) + `build-essential` (provides the `cc`
   linker Rust needs) + Node.js (so `npx`-launched Claude Code MCP plugins work)
   + the Claude Code CLI itself.
-- Runtime is **Podman** (`dev.containers.dockerPath: podman`, or
-  `devcontainer up --docker-path podman`). Docker is on the host only for an
-  unrelated NVIDIA operator; don't assume it for this repo.
+- Runtime is **Podman**, edited in **Zed** (`"use_podman": true`, top level of
+  Zed's settings.json). Docker is on the host only for an unrelated NVIDIA
+  operator; don't assume it for this repo. Zed never rebuilds on a
+  `devcontainer.json` edit — the container must be killed and reopened by hand.
 - The committed `devcontainer.json` mounts nothing from the host but the repo,
   so a fresh clone works with no per-machine setup. Pushing needs the
   gitignored `.devcontainer/local/` variant, which copies host SSH/git

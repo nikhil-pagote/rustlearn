@@ -60,14 +60,53 @@ unrelated NVIDIA operator dependency. Nothing in the repo is Docker-specific —
 the file is already called `Containerfile`, which is Podman's native name — so
 switching is purely a client-side setting:
 
+- **Zed** (the editor used here): set `"use_podman": true` at the **top level**
+  of Zed's `settings.json`. Zed then offers to reopen the project in the
+  container when it sees `.devcontainer/devcontainer.json`, or use
+  `projects: initialize dev container` / `Project: Open Remote` from the
+  command palette.
 - **VS Code Dev Containers extension:** set `"dev.containers.dockerPath":
   "podman"` in user settings. The extension shells out to that binary; no
   socket or service needs to be running.
 - **devcontainer CLI:** pass `--docker-path podman`.
 
+```jsonc
+// Zed settings.json
+{
+  "use_podman": true
+}
+```
+
 ```bash
+# or, from a host terminal
 devcontainer up --docker-path podman --workspace-folder .
 ```
+
+### Zed dev container caveats
+
+Zed's dev container support is young, and three open upstream issues are worth
+recognising by their symptoms rather than rediscovering:
+
+- **Editing `devcontainer.json` does not rebuild anything.** Zed never restarts
+  a container on config change, so an edit to the Containerfile or this file
+  looks like it did nothing. Stop the container by hand
+  (`podman kill <name>`; add `podman rmi` to force an image rebuild) and reopen
+  the project.
+- **A stopped container is not restarted**, so after a reboot Zed execs into a
+  container that isn't running and reports
+  `can only create exec sessions on running containers`
+  ([zed#48483](https://github.com/zed-industries/zed/issues/48483)). Run
+  `podman start <name>` first.
+- **`mkdir: cannot create directory '.zed_server': Permission denied`**
+  ([zed#54257](https://github.com/zed-industries/zed/issues/54257)) — Zed
+  uploads its server binary by exec'ing as a non-root uid that cannot write in
+  the container. `"remoteUser": "root"` is set in `devcontainer.json` partly to
+  keep Zed exec'ing as root here; it is also simply the truth about this image,
+  whose toolchain all lives under `/root` (`/root/.cargo/bin`,
+  `/root/.local/bin`, and the evcxr kernelspec in `/root/.local/share`).
+
+`podman-compose` is unsupported by Zed (it has no `--format=json`), which costs
+nothing here — this repo builds from a Containerfile, not a compose file.
 
 ### What rootless Podman changes
 
