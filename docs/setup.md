@@ -52,6 +52,45 @@ Rust toolchain lives inside a container, not on the host.
 `docs/README.md` as the notes index, this file, and the top-level `CLAUDE.md`
 summarizing environment/commands/structure for future Claude Code sessions.
 
+## Container runtime: Podman
+
+Podman is the intended runtime here; Docker is present on the host only for an
+unrelated NVIDIA operator dependency. Nothing in the repo is Docker-specific —
+`"build": { "dockerfile": ... }` is just the dev container spec's key name, and
+the file is already called `Containerfile`, which is Podman's native name — so
+switching is purely a client-side setting:
+
+- **VS Code Dev Containers extension:** set `"dev.containers.dockerPath":
+  "podman"` in user settings. The extension shells out to that binary; no
+  socket or service needs to be running.
+- **devcontainer CLI:** pass `--docker-path podman`.
+
+```bash
+devcontainer up --docker-path podman --workspace-folder .
+```
+
+### What rootless Podman changes
+
+Rootless Podman maps container root to your host uid, so the repo's files show
+up **root-owned inside the container** rather than as uid 1000. That silently
+removes the `dubious ownership` error, because git is then root looking at
+root-owned files. The `safe.directory` line in the Containerfile stays anyway:
+it costs nothing and it is what makes the image work for anyone running Docker,
+where host uids pass through unchanged.
+
+It does **not** fix the ssh credential problem. Ownership stops being the
+complaint, but `ssh` independently rejects any config with group-write bits,
+and a stock `0664 ~/.ssh/config` still trips that check no matter who owns it.
+Copying the files in and forcing `0600`, as `.devcontainer/local/` does,
+remains necessary under Podman.
+
+Mount options are kept to the portable subset for this reason — the personal
+config deliberately omits `consistency=cached`, which is a Docker Desktop
+(macOS) hint, a no-op on Linux, and not something Podman's `--mount` parser
+accepts. On an SELinux host (Fedora, RHEL) bind mounts would additionally need
+a `,z` or `,Z` relabel suffix; Pop!_OS uses AppArmor, so that is not needed
+here.
+
 ## Host credentials: kept out of the shared config
 
 The committed `.devcontainer/devcontainer.json` deliberately mounts **nothing**
